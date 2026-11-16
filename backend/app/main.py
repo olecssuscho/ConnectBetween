@@ -5,6 +5,6 @@ app = FastAPI()
 
 app.add_middleware(CORSMiddleware,allow_origins=[settings.FRONTEND_URL],allow_methods=["*"],allow_headers=["*"])
 
-@app.get("/backend")
+@app.get("/")
 async def greet():
     return "Hello new members from backend"
