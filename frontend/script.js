@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:8080/"
+const BACKEND_URL = "https://connectbetweenback.onrender.com"
 
 const button = document.getElementById("btn");
 const cont = document.getElementById("cont");
