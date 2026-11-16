@@ -1,11 +1,11 @@
-const BACKEND_URL = "https://connectbetweenback.onrender.com"
+const API_URL = location.hostname === "localhost" ? "http://localhost:8080" : "https://backend-xxxx.onrender.com";
 
 const button = document.getElementById("btn");
 const cont = document.getElementById("cont");
 
 button.addEventListener("click", async () =>{
     try {
-        const response = await fetch(`${BACKEND_URL}`);
+        const response = await fetch(`${API_URL}`);
         if (!response.ok){
             throw new Error(`Server returned ${response.status}`);
         }
