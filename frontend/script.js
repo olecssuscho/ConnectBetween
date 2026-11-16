@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:8000/backend"
+const BACKEND_URL = "http://localhost:8080/"
 
 const button = document.getElementById("btn");
 const cont = document.getElementById("cont");
