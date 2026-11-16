@@ -1,4 +1,4 @@
-const API_URL = location.hostname === "localhost" ? "http://localhost:8080" : "https://backend-xxxx.onrender.com";
+const API_URL = location.hostname === "localhost" ? "http://localhost:8080" : "https://connectbetweenback.onrender.com/";
 
 const button = document.getElementById("btn");
 const cont = document.getElementById("cont");
