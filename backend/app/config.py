@@ -1,7 +1,11 @@
 from pydantic_settings import BaseSettings,SettingsConfigDict
 
 class Settings(BaseSettings):
-    FRONTEND_URLS:list[str]
+    FRONTEND_URLS:str
+
+    @property
+    def origins(self) ->list[str]:
+        return [url.strip() for url in self.FRONTEND_URLS.split(",") if url.strip()]
 
     model_config = SettingsConfigDict(env_file=r"D:\ProjeckPy\ConnectBetween\backend\.env",env_file_encoding="utf-8")
 
