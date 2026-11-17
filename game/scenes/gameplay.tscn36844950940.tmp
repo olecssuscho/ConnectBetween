@@ -1,0 +1,39 @@
+[gd_scene format=4 uid="uid://2dpfc6phxx7d"]
+
+[ext_resource type="Texture2D" uid="uid://bl0n4dbbv066t" path="res://textures/grid_point.png" id="1_l1v76"]
+[ext_resource type="Script" uid="uid://mbpnctlw8lh4" path="res://scripts/player.gd" id="2_ct7aa"]
+[ext_resource type="Texture2D" uid="uid://c3pntpfnlr8vb" path="res://textures/Player/soul.png" id="3_ocj2s"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_din8e"]
+texture = ExtResource("1_l1v76")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_27xgj"]
+sources/0 = SubResource("TileSetAtlasSource_din8e")
+
+[node name="Node2D" type="Node2D" unique_id=1290192369]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=12081568]
+layer = -1
+
+[node name="bg" type="ColorRect" parent="CanvasLayer" unique_id=895564325]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=363131693]
+position = Vector2(-40, -40)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAACAAMAAAAAAAAAAAABAAMAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAEAAAAAAAAAAAACAAIAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAADAAQAAAAAAAAAAAACAAQAAAAAAAAAAAABAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_27xgj")
+
+[node name="Player" type="Node2D" parent="." unique_id=708572288]
+script = ExtResource("2_ct7aa")
+
+[node name="Soul" type="Sprite2D" parent="Player" unique_id=1784328625]
+texture = ExtResource("3_ocj2s")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1014950213]
+zoom = Vector2(4, 4)

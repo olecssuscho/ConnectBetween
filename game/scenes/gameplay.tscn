@@ -1,0 +1,62 @@
+[gd_scene format=4 uid="uid://2dpfc6phxx7d"]
+
+[ext_resource type="Script" uid="uid://dutp5ii6qlse5" path="res://scripts/game_settings.gd" id="1_ct7aa"]
+[ext_resource type="Texture2D" uid="uid://bl0n4dbbv066t" path="res://textures/grid_point.png" id="1_l1v76"]
+[ext_resource type="Script" uid="uid://mbpnctlw8lh4" path="res://scripts/player.gd" id="2_ct7aa"]
+[ext_resource type="Texture2D" uid="uid://c3pntpfnlr8vb" path="res://textures/Player/soul.png" id="3_ocj2s"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_l1v76"]
+font_size = 36
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_din8e"]
+texture = ExtResource("1_l1v76")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_27xgj"]
+sources/0 = SubResource("TileSetAtlasSource_din8e")
+
+[node name="Node2D" type="Node2D" unique_id=1290192369]
+
+[node name="game_settings" type="Node" parent="." unique_id=1778413934]
+script = ExtResource("1_ct7aa")
+
+[node name="Timer" type="Timer" parent="game_settings" unique_id=1993499985]
+autostart = true
+
+[node name="bg" type="CanvasLayer" parent="." unique_id=12081568]
+layer = -1
+
+[node name="bg" type="ColorRect" parent="bg" unique_id=895564325]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ui" type="CanvasLayer" parent="." unique_id=1080209845]
+
+[node name="pos" type="Label" parent="ui" unique_id=1731756526]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 152.0
+offset_bottom = 72.0
+text = "x:x y:x"
+label_settings = SubResource("LabelSettings_l1v76")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=363131693]
+position = Vector2(-40, -40)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAACAAMAAAAAAAAAAAABAAMAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAEAAAAAAAAAAAACAAIAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAQAAAAAAAAAAAADAAQAAAAAAAAAAAACAAQAAAAAAAAAAAABAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_27xgj")
+
+[node name="Player" type="Node2D" parent="." unique_id=708572288]
+script = ExtResource("2_ct7aa")
+
+[node name="sprite" type="Sprite2D" parent="Player" unique_id=1784328625]
+z_index = 1
+texture = ExtResource("3_ocj2s")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1014950213]
+zoom = Vector2(4, 4)
+
+[connection signal="timeout" from="game_settings/Timer" to="game_settings" method="_on_timer_timeout"]
