@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings,SettingsConfigDict
 
 class Settings(BaseSettings):
     FRONTEND_URLS:str
-
+    DB_URL:str
     @property
     def origins(self) ->list[str]:
         return [url.strip() for url in self.FRONTEND_URLS.split(",") if url.strip()]
