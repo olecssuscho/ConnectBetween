@@ -4,7 +4,7 @@ from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column
 class Base(DeclarativeBase):
     pass
 
-class User(Base):
+class UserDB(Base):
 
     __tablename__ = "Users"
 
@@ -12,3 +12,4 @@ class User(Base):
     first_name : Mapped[str] = mapped_column(nullable=False)
     last_name : Mapped[str] = mapped_column(nullable=False)
     email : Mapped[str] = mapped_column(String(50))
+    password : Mapped[str] = mapped_column(nullable=False) 
