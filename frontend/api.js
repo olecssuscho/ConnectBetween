@@ -1,4 +1,4 @@
-// api.js: модуль для зв'язку з бекендом і безкоштовними публічними API.
+// api.js: модуль для зв'язку з бекендом і з Open-Meteo (безкоштовна погода, без ключа).
 // Сам по собі файл не відкривається в браузері: його підключають до сторінки
 // тегом <script src="api.js"></script> ПЕРЕД своїм script.js.
 
@@ -14,30 +14,49 @@ async function getJson(url, options) {
     return response.json();
 }
 
-// 1. Бекенд команди
+// Бекенд команди
 async function pingBackend() {
     return getJson(`${API_URL}/`);
 }
 
-// 2. Безкоштовні API без ключів (працюють з браузера, CORS дозволений)
-
-// Вікіпедія (українська): пошук статей за запитом
-async function searchWikipedia(query) {
-    const url = "https://uk.wikipedia.org/w/api.php?action=opensearch&format=json&origin=*&limit=5&search="
-        + encodeURIComponent(query);
-    const [, titles, , links] = await getJson(url);
-    return titles.map((title, i) => ({ title, link: links[i] }));
+// Розшифровка кодів погоди Open-Meteo (WMO)
+function describeWeather(code) {
+    if (code === 0) return "Ясно";
+    if (code <= 3) return "Хмарно";
+    if (code === 45 || code === 48) return "Туман";
+    if (code >= 51 && code <= 57) return "Мряка";
+    if (code >= 61 && code <= 67) return "Дощ";
+    if (code >= 71 && code <= 77) return "Сніг";
+    if (code >= 80 && code <= 82) return "Злива";
+    if (code === 85 || code === 86) return "Снігопад";
+    if (code >= 95) return "Гроза";
+    return "Невідомо";
 }
 
-// Open Library: пошук книг
-async function searchBooks(query) {
-    const data = await getJson("https://openlibrary.org/search.json?limit=5&q=" + encodeURIComponent(query));
-    return data.docs.map(d => ({ title: d.title, author: (d.author_name || [])[0] || "невідомо", year: d.first_publish_year }));
+// Open-Meteo: знайти місто за назвою -> координати
+async function findCity(name) {
+    const url = "https://geocoding-api.open-meteo.com/v1/search?count=1&language=uk&name="
+        + encodeURIComponent(name);
+    const data = await getJson(url);
+    if (!data.results || data.results.length === 0) {
+        throw new Error(`Місто "${name}" не знайдено`);
+    }
+    const c = data.results[0];
+    return { name: c.name, country: c.country, latitude: c.latitude, longitude: c.longitude };
 }
 
-// REST Countries: інформація про країну
-async function searchCountry(name) {
-    const data = await getJson("https://restcountries.com/v3.1/name/" + encodeURIComponent(name)
-        + "?fields=name,capital,population");
-    return data.map(c => ({ name: c.name.common, capital: (c.capital || [])[0], population: c.population }));
+// Open-Meteo: поточна погода в місті за назвою
+async function getWeather(cityName) {
+    const city = await findCity(cityName);
+    const url = "https://api.open-meteo.com/v1/forecast"
+        + `?latitude=${city.latitude}&longitude=${city.longitude}`
+        + "&current=temperature_2m,wind_speed_10m,weather_code&timezone=auto";
+    const data = await getJson(url);
+    return {
+        city: city.name,
+        country: city.country,
+        temperature: data.current.temperature_2m,   // °C
+        wind: data.current.wind_speed_10m,          // км/год
+        description: describeWeather(data.current.weather_code),
+    };
 }
