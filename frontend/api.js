@@ -2,7 +2,10 @@
 // Сам по собі файл не відкривається в браузері: його підключають до сторінки
 // тегом <script src="api.js"></script> ПЕРЕД своїм script.js.
 
-const API_URL = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+// true: брати локальний бекенд (http://localhost:8080), false: бекенд на Render
+const USE_LOCAL_BACKEND = false;
+
+const API_URL = USE_LOCAL_BACKEND
     ? "http://localhost:8080"
     : "https://connectbetweenback.onrender.com";
 
